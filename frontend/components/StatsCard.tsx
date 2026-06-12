@@ -66,7 +66,9 @@ export default function StatsCard({ title, value, icon: Icon, description, color
         <div className="flex items-center gap-1.5 mt-2">
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{title}</p>
           {tooltip && (
-            <Info className="w-3.5 h-3.5 text-slate-500 cursor-help" title={tooltip} />
+            <span title={tooltip}>
+              <Info className="w-3.5 h-3.5 text-slate-500 cursor-help" />
+            </span>
           )}
         </div>
         {description && (

@@ -30,6 +30,7 @@ interface Campaign {
   created_at: string;
   launched_at: string | null;
   completed_at: string | null;
+  goal?: string;
 }
 
 interface Communication {

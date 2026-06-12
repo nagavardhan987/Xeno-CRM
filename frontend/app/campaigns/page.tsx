@@ -26,6 +26,7 @@ interface Campaign {
   click_rate: number;
   created_at: string;
   launched_at: string | null;
+  goal?: string;
 }
 
 interface Segment {

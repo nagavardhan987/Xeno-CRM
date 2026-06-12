@@ -13,5 +13,18 @@ services:
         sync: false # Set securely in Render Dashboard
       - key: FRONTEND_URL
         sync: false # e.g. https://xeno-crm-frontend.vercel.app
+      - key: CHANNEL_SERVICE_URL
+        sync: false # Set securely in Render Dashboard (URL of channel-service)
+      - key: PYTHON_VERSION
+        value: 3.12.2
+
+  - type: web
+    name: xeno-crm-channel-service
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: "pip install -r channel-service/requirements.txt"
+    startCommand: "cd channel-service && uvicorn main:app --host 0.0.0.0 --port 10000"
+    envVars:
       - key: PYTHON_VERSION
         value: 3.12.2

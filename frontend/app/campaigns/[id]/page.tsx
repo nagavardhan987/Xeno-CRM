@@ -1,4 +1,5 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
@@ -9,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 interface Campaign {
   id: number;
@@ -141,7 +142,7 @@ export default function CampaignDetailPage() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const camRes = await fetch(`${API}/api/campaigns/${id}`);
+      const camRes = await apiFetch(`${API}/api/campaigns/${id}`);
       if (!camRes.ok) {
         console.error("Campaign fetch failed", await camRes.text());
         setCampaign(null);
@@ -149,7 +150,7 @@ export default function CampaignDetailPage() {
       }
       const camData = await camRes.json();
       
-      const commsRes = await fetch(`${API}/api/campaigns/${id}/communications`);
+      const commsRes = await apiFetch(`${API}/api/campaigns/${id}/communications`);
       if (commsRes.ok) {
         const commsData = await commsRes.json();
         setComms(commsData);
@@ -180,7 +181,7 @@ export default function CampaignDetailPage() {
   const handleLaunch = async () => {
     setLaunching(true);
     try {
-      await fetch(`${API}/api/campaigns/${id}/launch`, { method: "POST" });
+      await apiFetch(`${API}/api/campaigns/${id}/launch`, { method: "POST" });
       await fetchData();
     } catch (e) { console.error(e); }
     finally { setLaunching(false); }
@@ -190,7 +191,7 @@ export default function CampaignDetailPage() {
     if (!confirm("Are you sure you want to delete this campaign? This action cannot be undone.")) return;
     setDeleting(true);
     try {
-      const res = await fetch(`${API}/api/campaigns/${id}`, { method: "DELETE" });
+      const res = await apiFetch(`${API}/api/campaigns/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       window.location.href = "/campaigns";
     } catch (e) {
@@ -204,7 +205,7 @@ export default function CampaignDetailPage() {
     setInsightsLoading(true);
     setShowInsights(true);
     try {
-      const res = await fetch(`${API}/api/ai/insights/${id}`, { method: "POST" });
+      const res = await apiFetch(`${API}/api/ai/insights/${id}`, { method: "POST" });
       setInsights(await res.json());
     } catch (e) { console.error(e); }
     finally { setInsightsLoading(false); }
@@ -212,7 +213,7 @@ export default function CampaignDetailPage() {
 
   const handleSimulate = async (eventType: string) => {
     try {
-      const res = await fetch(`${API}/api/campaigns/${id}/simulate`, {
+      const res = await apiFetch(`${API}/api/campaigns/${id}/simulate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event_type: eventType })

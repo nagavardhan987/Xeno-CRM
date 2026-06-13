@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-CRM_BASE_URL = os.getenv("CRM_BASE_URL", "http://localhost:8000")
+CRM_BASE_URL = os.getenv("CRM_BASE_URL", "http://127.0.0.1:8003")
 
 app = FastAPI(
     title="Xeno Channel Stub Service",

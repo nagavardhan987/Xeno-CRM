@@ -1,4 +1,5 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useEffect, useState, useCallback } from "react";
 import { Plus, Megaphone, BarChart2, Loader2, X, ChevronRight, Bot, Sparkles, Trash2 } from "lucide-react";
@@ -6,7 +7,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 interface Campaign {
   id: number;
@@ -89,8 +90,8 @@ function CampaignsContent() {
     setLoading(true);
     try {
       const [camRes, segRes] = await Promise.all([
-        fetch(`${API}/api/campaigns`),
-        fetch(`${API}/api/segments`),
+        apiFetch(`${API}/api/campaigns`),
+        apiFetch(`${API}/api/segments`),
       ]);
       setCampaigns(await camRes.json());
       setSegments(await segRes.json());
@@ -108,7 +109,7 @@ function CampaignsContent() {
     setAiLoading(true);
     try {
       const seg = segments.find((s) => s.id === parseInt(segmentId));
-      const res = await fetch(`${API}/api/ai/message`, {
+      const res = await apiFetch(`${API}/api/ai/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -134,7 +135,7 @@ function CampaignsContent() {
     if (!messageTemplate.trim()) return alert("Message template is required.");
     setSaving(true);
     try {
-      const res = await fetch(`${API}/api/campaigns`, {
+      const res = await apiFetch(`${API}/api/campaigns`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -158,7 +159,7 @@ function CampaignsContent() {
   const handleLaunch = async (id: number) => {
     setLaunching(id);
     try {
-      await fetch(`${API}/api/campaigns/${id}/launch`, { method: "POST" });
+      await apiFetch(`${API}/api/campaigns/${id}/launch`, { method: "POST" });
       setTimeout(fetchAll, 1000);
     } catch (e) {
       console.error(e);
@@ -171,7 +172,7 @@ function CampaignsContent() {
     if (!confirm("Are you sure you want to delete this campaign? This action cannot be undone.")) return;
     setDeleting(id);
     try {
-      const res = await fetch(`${API}/api/campaigns/${id}`, { method: "DELETE" });
+      const res = await apiFetch(`${API}/api/campaigns/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       fetchAll();
     } catch (e) {

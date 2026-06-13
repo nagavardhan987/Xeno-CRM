@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 import {
   LayoutDashboard,
   Users,
@@ -10,6 +11,7 @@ import {
   Bot,
   Sparkles,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -22,6 +24,9 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { user, signOut } = useAuth();
+
+  if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
     <aside className="w-64 shrink-0 h-screen sticky top-0 bg-slate-950 border-r border-slate-800 flex flex-col">
@@ -105,7 +110,23 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-4 border-t border-slate-800">
+      <div className="p-4 border-t border-slate-800 space-y-3">
+        {user && (
+          <div className="flex items-center justify-between px-2 pt-2 pb-2">
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-medium text-slate-200 truncate">{user.user_metadata?.full_name || 'Authenticated User'}</span>
+              <span className="text-xs text-slate-500 truncate">{user.email}</span>
+            </div>
+            <button 
+              onClick={signOut}
+              className="p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-violet-600/10 to-indigo-600/10 border border-violet-500/20">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shrink-0">
             <Bot className="w-4 h-4 text-white" />

@@ -1,11 +1,12 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useEffect, useState } from "react";
 import { Users, Megaphone, TrendingUp, IndianRupee, Sparkles, ArrowRight, ChevronRight, Clock, Zap } from "lucide-react";
 import StatsCard from "@/components/StatsCard";
 import Link from "next/link";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 interface Stats {
   total_customers: number;
@@ -67,8 +68,8 @@ export default function Dashboard() {
   useEffect(() => {
     // Fetch stats and campaigns in parallel
     Promise.all([
-      fetch(`${API}/api/customers/stats`).then((r) => r.json()),
-      fetch(`${API}/api/campaigns`).then((r) => r.json()),
+      apiFetch(`${API}/api/customers/stats`).then((r) => r.json()),
+      apiFetch(`${API}/api/campaigns`).then((r) => r.json()),
     ])
       .then(([statsData, campaignsData]) => {
         setStats(statsData);
@@ -78,7 +79,7 @@ export default function Dashboard() {
       .finally(() => setLoadingStats(false));
 
     // Fetch AI suggestions separately (may be slow)
-    fetch(`${API}/api/ai/suggest`, { method: "POST" })
+    apiFetch(`${API}/api/ai/suggest`, { method: "POST" })
       .then((r) => r.json())
       .then(setSuggestions)
       .catch(console.error)

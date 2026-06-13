@@ -1,9 +1,10 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useEffect, useState, useCallback } from "react";
 import { Search, Filter, Users, MapPin, IndianRupee, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 interface Customer {
   id: number;
@@ -73,7 +74,7 @@ export default function CustomersPage() {
     if (status) params.set("status", status);
 
     try {
-      const res = await fetch(`${API}/api/customers?${params}`);
+      const res = await apiFetch(`${API}/api/customers?${params}`);
       const data = await res.json();
       setCustomers(data.customers || []);
       setTotal(data.total || 0);

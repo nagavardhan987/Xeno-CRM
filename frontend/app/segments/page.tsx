@@ -1,9 +1,10 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useEffect, useState, useCallback } from "react";
 import { Plus, Users, Layers, Sparkles, Filter, X, Loader2, Bot } from "lucide-react";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 interface Segment {
   id: number;
@@ -53,7 +54,7 @@ export default function SegmentsPage() {
   const fetchSegments = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/segments`);
+      const res = await apiFetch(`${API}/api/segments`);
       setSegments(await res.json());
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
@@ -82,7 +83,7 @@ export default function SegmentsPage() {
     setPreviewLoading(true);
     const t = setTimeout(async () => {
       try {
-        const res = await fetch(`${API}/api/segments`, {
+        const res = await apiFetch(`${API}/api/segments`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: "_preview", description: "", filters: f }),
@@ -99,7 +100,7 @@ export default function SegmentsPage() {
     if (!aiDescription.trim()) return;
     setAiLoading(true);
     try {
-      const res = await fetch(`${API}/api/ai/segment`, {
+      const res = await apiFetch(`${API}/api/ai/segment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ description: aiDescription }),
@@ -114,7 +115,7 @@ export default function SegmentsPage() {
     setSaving(true);
     const filters = activeTab === "ai" && aiResult ? aiResult.filters : getRuleFilters();
     try {
-      const res = await fetch(`${API}/api/segments`, {
+      const res = await apiFetch(`${API}/api/segments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, description, filters }),

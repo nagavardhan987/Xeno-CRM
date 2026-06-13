@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import AuthProvider from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Xeno CRM Copilot | AI-Native Marketing Platform",
@@ -20,10 +21,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-slate-950 text-slate-100 min-h-screen flex">
-        <Sidebar />
-        <main className="flex-1 overflow-auto min-h-screen">
-          {children}
-        </main>
+        <AuthProvider>
+          <Sidebar />
+          <main className="flex-1 overflow-auto min-h-screen">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

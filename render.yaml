@@ -11,6 +11,10 @@ services:
         sync: false # Set securely in Render Dashboard
       - key: GROQ_API_KEY
         sync: false # Set securely in Render Dashboard
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false # Set to your Supabase URL
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false # Set to your Supabase Anon Key
       - key: FRONTEND_URL
         sync: false # e.g. https://xeno-crm-frontend.vercel.app
       - key: CHANNEL_SERVICE_URL
@@ -26,5 +30,7 @@ services:
     buildCommand: "pip install -r channel-service/requirements.txt"
     startCommand: "cd channel-service && uvicorn main:app --host 0.0.0.0 --port 10000"
     envVars:
+      - key: CRM_BASE_URL
+        sync: false # Set securely in Render Dashboard (URL of xeno-crm-backend)
       - key: PYTHON_VERSION
         value: 3.12.2

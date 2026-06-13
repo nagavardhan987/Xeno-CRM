@@ -1,4 +1,5 @@
 "use client";
+import { apiFetch } from "@/lib/api";
 
 import { useState, useRef, useEffect } from "react";
 import {
@@ -10,7 +11,7 @@ import {
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8003";
 
 type Step = "input" | "building" | "review" | "done";
 
@@ -70,7 +71,7 @@ export default function CopilotPage() {
     setLoadingStepIdx(0);
     
     try {
-      const resPromise = fetch(`${API}/api/ai/copilot/build`, {
+      const resPromise = apiFetch(`${API}/api/ai/copilot/build`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: text }),
@@ -105,7 +106,7 @@ export default function CopilotPage() {
     if (!data || !editedMessage.trim()) return;
     setLaunching(true);
     try {
-      const segRes = await fetch(`${API}/api/segments`, {
+      const segRes = await apiFetch(`${API}/api/segments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -117,7 +118,7 @@ export default function CopilotPage() {
       if (!segRes.ok) throw new Error("Failed to save segment");
       const savedSeg = await segRes.json();
 
-      const camRes = await fetch(`${API}/api/campaigns`, {
+      const camRes = await apiFetch(`${API}/api/campaigns`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

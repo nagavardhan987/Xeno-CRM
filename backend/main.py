@@ -36,12 +36,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register routers
-app.include_router(customers.router)
-app.include_router(segments.router)
-app.include_router(campaigns.router)
+from fastapi import Depends
+from auth import get_current_user
+
+# Register routers with auth protection
+app.include_router(customers.router, dependencies=[Depends(get_current_user)])
+app.include_router(segments.router, dependencies=[Depends(get_current_user)])
+app.include_router(campaigns.router, dependencies=[Depends(get_current_user)])
+app.include_router(ai.router, dependencies=[Depends(get_current_user)])
+
+# Webhook endpoint (should not require user auth)
 app.include_router(receipt.router)
-app.include_router(ai.router)
 
 @app.on_event("startup")
 def on_startup():

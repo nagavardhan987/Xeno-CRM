@@ -51,7 +51,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-The backend starts at **http://localhost:8000**. On first launch:
+The backend starts at **http://localhost:8003**. On first launch:
 - Tables are created automatically on Supabase
 - 700 customers + 3,500 orders are seeded automatically
 
@@ -116,15 +116,22 @@ POST /receipt                             # Webhook for channel delivery callbac
 ## Environment Variables
 
 ### backend/.env
+Copy `backend/.env.example` to `backend/.env` and update the keys if necessary (a live `.env.example` is provided for grading convenience):
 ```
 DATABASE_URL=<your-supabase-postgresql-url>
 CHANNEL_SERVICE_URL=http://localhost:8001
 GROQ_API_KEY=<your-groq-api-key>
+CRM_BASE_URL=http://localhost:8003
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
 ```
 
 ### frontend/.env.local
+Copy `frontend/.env.local.example` to `frontend/.env.local` and update the keys if necessary:
 ```
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+NEXT_PUBLIC_API_URL=http://localhost:8003
 ```
 
 ---

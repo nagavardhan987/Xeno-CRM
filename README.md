@@ -3,7 +3,7 @@
 An AI-native mini CRM for retail brands to segment customers, run personalized marketing campaigns, and track performance in real time.
 
 ## 🌟 Live Demo
-- **Frontend (Vercel):** [https://xeno-crm-swart.vercel.app](https://xeno-crm-swart.vercel.app)
+[https://xeno-crm-swart.vercel.app](https://xeno-crm-swart.vercel.app)
 
 ---
 

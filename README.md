@@ -13,6 +13,7 @@ An AI-native mini CRM for retail brands to segment customers, run personalized m
 
 ### Directory Structure
 
+```text
 ├── backend/          # FastAPI + SQLAlchemy backend (port 8000)
 │   ├── main.py       # App entry point + startup seeding
 │   ├── models.py     # SQLAlchemy ORM models

@@ -2,12 +2,18 @@
 
 An AI-native mini CRM for retail brands to segment customers, run personalized marketing campaigns, and track performance in real time.
 
+## 🌟 Live Demo
+- **Frontend (Vercel):** [https://xeno-crm-swart.vercel.app](https://xeno-crm-swart.vercel.app)
+- **Backend API (Render):** *Your Render URL here*
+
 ---
 
 ## Architecture
 
-```
-xeno-crm/
+![System Architecture](xeno_architecture_diagram.png)
+
+### Directory Structure
+
 ├── backend/          # FastAPI + SQLAlchemy backend (port 8000)
 │   ├── main.py       # App entry point + startup seeding
 │   ├── models.py     # SQLAlchemy ORM models
